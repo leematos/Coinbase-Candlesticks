@@ -13,15 +13,14 @@ Currently, Coinbase does not have CORS headers set in the API so you can't query
 Written in python it has 2 dependencies: 
 
 ```
-- requests
-- flask. 
+requests
+flask 
 ```
 
 Once the dependencies are installed you can run the server with 
 
 ```
 python server.py 
-
 ```
 
 in your terminal.
