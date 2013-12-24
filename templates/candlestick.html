@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Coinbase Candlesticks</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/stock/highstock.js"></script>
+</head>
+<body>
+
+<div id="container" style="height:600px; min-width: 500px"></div>
+
+<script type="text/javascript">
+
+// Define some globals for now.
+var open = 0;
+var close= 0;
+var high_low = [];
+var i = 0;
+var d = new Date();
+var output = [];
+
+/*
+Highcharts wants the data array in [x, open, high, low, close]
+*/
+
+$(function() {
+	
+	Highcharts.setOptions({
+		global : {
+			useUTC : false
+		}
+	});
+	
+	$('#container').highcharts('StockChart', {
+	       chart : {
+			events : {
+				load : function() {
+
+					// set up the updating of the chart every 10 seconds.
+					var series = this.series[0]; // This grabs the dummy data for now. Need to make it actually grab a first run.
+
+setInterval(function(){ // The interval runs every 5 seconds. After it runs twice it pushes to the graph.
+
+if(i == 0){// If we are at the top of an interval, get the open. TODO: need to make this aware of second runs opening being the last close.
+ $.getJSON( "http://127.0.0.1:5000/api/v1/prices/spot_rate", function( data ){open = data.amount;});
+}
+
+// Grab data for comparison.
+$.getJSON( "http://127.0.0.1:5000/api/v1/prices/sell", function( data ){high_low.push(data.subtotal.amount);});
+
+$.getJSON( "http://127.0.0.1:5000/api/v1/prices/buy", function( data ){high_low.push(data.subtotal.amount);});
+
+i+=5;
+if(i === 10){ // If we are at the second call we need to close out.
+ $.getJSON( "http://127.0.0.1:5000/api/v1/prices/spot_rate", function( data ){
+ close = data.amount;
+ high_low.sort(function(a,b){ return a - b}); // sort the array ascending.
+
+var high = high_low.pop();
+var low = high_low[0];
+
+// This section here does a last minute check against the open/close values and the data we stored in the array.
+if(open < low){
+low = open;
+}
+if( close < low){
+low = close;
+}
+if( high < open){
+high = open;
+}
+
+ output.push([Date.now(),open, high, low, close]);
+
+console.log(output);
+
+ series.addPoint([parseFloat(Date.now()),parseFloat(open), parseFloat(high), parseFloat(low), parseFloat(close)]); 
+
+console.log("Interval has passed. Data pushed to graph.");
+// reset
+ i=0;
+ high_low = [];
+ });
+}
+
+},5000);
+
+					
+				}
+			}
+		},
+// I don't do anything with these so they are compressed.
+		
+rangeSelector: {buttons: [{count: 1,type: 'minute',text: '1M'},{count: 5,type: 'minute',text: '5M'},{type: 'all',text: 'All'}],inputEnabled: false,selected: 0},
+credits: {enabled: false},	
+title : {text : 'Coinbase BTC'},
+navigator: {enabled: true},
+exporting: {enabled: false},
+	        // TODO: This is a janky way to start a graph close to the going rate of btc. Tried a 0,0,0,0 entry but it skewed the data zoom. Need to refactor.	
+		series : [{
+                        type: 'candlestick',
+			name : 'Coinbase Market',
+			data: [[parseFloat(Date.now()),650,650,650,650]]
+		}]
+	});
+
+});
+
+</script>
+</html>
+
