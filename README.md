@@ -25,7 +25,7 @@ python server.py
 
 in your terminal.
 
-The page is now listening on 127.0.0.1/candlesticks and you can see your the graph!
+The page is now listening on 127.0.0.1/candlesticks and once you load up your browser you can see the graph!
 
 This code has been tested only on OSX 10.9.
 
