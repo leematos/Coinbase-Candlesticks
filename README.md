@@ -10,7 +10,21 @@ How does it work?
 
 Currently, Coinbase does not have CORS headers set in the API so you can't query for data directly in the browser. To get around this, you need a small proxy server. Enter server.py.
 
-Written in python it has 2 dependencies: requests and flask. Once the dependencies are installed you can run the server with python server.py in your terminal.
+Written in python it has 2 dependencies: 
+
+```
+- requests
+- flask. 
+```
+
+Once the dependencies are installed you can run the server with 
+
+```
+python server.py 
+
+```
+
+in your terminal.
 
 The page is now listening on 127.0.0.1/candlesticks and you can see your the graph!
 
