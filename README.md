@@ -10,26 +10,24 @@ How does it work?
 
 Currently, Coinbase does not have CORS headers set in the API so you can't query for data directly in the browser. To get around this, you need a small proxy server. Enter server.py.
 
-Written in python it has 2 dependencies: 
+Written in python, it has 2 dependencies: 
 
 ```
 requests
 flask 
 ```
 
-Once the dependencies are installed you can run the server with 
+Once the dependencies are installed you can run the server with:
 
 ```
 python server.py 
 ```
 
-in your terminal.
+The server is now listening on 127.0.0.1:5000 and you can access the graph at 127.0.0.1:5000/candlesticks.
 
-The page is now listening on 127.0.0.1/candlesticks and once you load up your browser you can see the graph!
+This code has only been tested on OSX 10.9.
 
-This code has been tested only on OSX 10.9.
-
-Also included is an example nginx configuration that you could use to host this page on an nginx server. If you do use this nginx configuration be sure to update the candlesticks.html file to query your server and not 127.0.0.1.
+Also included is an example nginx configuration that you could use to proxy API data through an nginx server. If you do use this nginx configuration be sure to update the candlesticks.html file to query your server and not 127.0.0.1.
 
 License
 ---
