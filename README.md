@@ -27,7 +27,7 @@ The server is now listening on 127.0.0.1:5000 and you can access the graph at 12
 
 This code has only been tested on OSX 10.9.
 
-Also included is an example nginx configuration that you could use to proxy API data through an nginx server. If you do use this nginx configuration be sure to update the candlesticks.html file to query your server and not 127.0.0.1.
+Also included is an example nginx configuration that you could use to proxy API data through an nginx server.
 
 License
 ---
