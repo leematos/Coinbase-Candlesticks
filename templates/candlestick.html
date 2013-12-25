@@ -32,7 +32,26 @@ $(function() {
 	});
 	
 	$('#container').highcharts('StockChart', {
-	       chart : {
+		plotOptions: {
+		candlestick: {
+	    		color: '#348EDA',
+	    		upColor: '#fff',
+                lineColor: '#1E5380',
+                upLineColor: '#555'
+	    	}
+		},	       
+
+	    tooltip: {
+	    	backgroundColor:'rgb(52, 142, 218)',
+	    	borderWidth: 0,
+            borderRadius:0,
+            shadow:false,
+            style: {
+	color: '#fff',
+            }
+	    },
+
+		chart : {
 			events : {
 				load : function() {
 
@@ -93,8 +112,29 @@ console.log("Interval has passed. Data pushed to graph.");
 		
 rangeSelector: {buttons: [{count: 1,type: 'minute',text: '1M'},{count: 5,type: 'minute',text: '5M'},{type: 'all',text: 'All'}],inputEnabled: false,selected: 0},
 credits: {enabled: false},	
-title : {text : 'Coinbase BTC'},
-navigator: {enabled: true},
+title : {text : 'Coinbase BTC',style:{color: 'rgb(52, 142, 218)'}},
+navigator: {
+	    	series: {
+	    		color: 'rgb(52, 142, 218)'	
+	    	},
+            outlineColor: 'rgb(52, 142, 218)',
+	    	outlineWidth: 1,
+            maskFill: 'rgba(52, 142, 218, 0.25)'
+	    },
+scrollbar: {
+			barBackgroundColor: 'rgb(52, 142, 218)',
+			barBorderRadius: 7,
+			barBorderWidth: 0,
+			buttonBackgroundColor: 'rgb(52, 142, 218)',
+			buttonBorderWidth: 0,
+			buttonArrowColor: '#fff',
+			buttonBorderRadius: 7,
+			rifleColor: '#fff',
+			trackBackgroundColor: 'white',
+			trackBorderWidth: 0,
+			trackBorderColor: 'rgb(52, 142, 218)',
+			trackBorderRadius: 7
+	    },
 exporting: {enabled: false},
 	        // TODO: This is a janky way to start a graph close to the going rate of btc. Tried a 0,0,0,0 entry but it skewed the data zoom. Need to refactor.	
 		series : [{
